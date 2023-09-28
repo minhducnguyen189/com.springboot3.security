@@ -1,0 +1,30 @@
+server:
+  servlet:
+    session:
+      timeout: 120s
+spring:
+  security:
+    user:
+      name: user
+      password: 12345
+      roles:
+        - ADMIN
+  session:
+    store-type: jpa
+    jdbc:
+      cleanup-cron: 0 */5 * * * *
+      initialize-schema: always
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/session?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+#    open-in-view: true
+    properties:
+      hibernate:
+        generate_statistics: true
