@@ -7,10 +7,7 @@ spring:
     user:
       name: user
       password: 12345
-      roles:
-        - ADMIN
   session:
-    store-type: jpa
     jdbc:
       cleanup-cron: 0 */5 * * * *
       initialize-schema: always
