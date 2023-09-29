@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>store-sessions-in-database</artifactId>
+    <artifactId>spring-security-code-grant-type</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,12 +23,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.1.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-jdbc</artifactId>
-            <version>3.1.2</version>
         </dependency>
 
         <!-- spring boot 3 test -->
@@ -46,21 +40,12 @@
             <version>3.1.3</version>
         </dependency>
 
-
-        <!-- spring boot 3 data jpa -->
+        <!-- oauth2 resource server -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
             <version>3.1.3</version>
         </dependency>
-
-        <!-- postgresql driver -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
-        </dependency>
-
 
         <!-- lombok -->
         <dependency>

@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>store-sessions-in-database</module>
+        <module>spring-security-code-grant-type</module>
     </modules>
 
     <properties>
