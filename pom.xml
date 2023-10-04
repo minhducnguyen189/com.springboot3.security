@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-security-code-grant-type</module>
+        <module>azure-active-directory-integration</module>
     </modules>
 
     <properties>

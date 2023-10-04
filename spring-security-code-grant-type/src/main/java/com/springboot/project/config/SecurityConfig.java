@@ -1,6 +1,6 @@
-package com.springboot.project.controller.config;
+package com.springboot.project.config;
 
-import com.springboot.project.controller.converter.KeycloakRoleConverter;
+import com.springboot.project.converter.KeycloakRoleConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -1,4 +1,4 @@
-package com.springboot.project.controller.converter;
+package com.springboot.project.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
