@@ -11,6 +11,7 @@
     <modules>
         <module>spring-security-code-grant-type</module>
         <module>azure-active-directory-integration</module>
+        <module>spring-security-code-grant-stateless-session</module>
     </modules>
 
     <properties>
