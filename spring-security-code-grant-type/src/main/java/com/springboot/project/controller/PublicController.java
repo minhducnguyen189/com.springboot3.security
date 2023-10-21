@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SampleController {
+public class PublicController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/messages")
+    @RequestMapping(method = RequestMethod.GET, path = "/v1/public/messages")
     public ResponseEntity<String> getMessage() {
-        return ResponseEntity.ok("Hello World!");
+        return ResponseEntity.ok("Public Message!");
     }
 
 }
