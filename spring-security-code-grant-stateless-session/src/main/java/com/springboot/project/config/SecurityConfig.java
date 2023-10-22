@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/v1/public/**")
+                        auth.requestMatchers("/v1/public/**", "/error")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 .successHandler(this.oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(this.oAuth2AuthenticationFailureHandler))
                 .sessionManagement(sessionConfig ->
-                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.NEVER)
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1)))
                 .requestCache(cache -> cache.requestCache(this.customCookieRequestCache))
                 .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
