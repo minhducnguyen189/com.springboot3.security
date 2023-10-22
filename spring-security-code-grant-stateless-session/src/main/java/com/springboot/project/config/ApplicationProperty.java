@@ -13,8 +13,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "application")
 public class ApplicationProperty {
 
-
     private Security security;
+    private String deploymentBaseUrl;
 
     @Getter
     @Setter
