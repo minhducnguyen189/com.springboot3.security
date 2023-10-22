@@ -1,7 +1,6 @@
 package com.springboot.project.config.oauth2;
 
 import com.springboot.project.config.ApplicationProperty;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

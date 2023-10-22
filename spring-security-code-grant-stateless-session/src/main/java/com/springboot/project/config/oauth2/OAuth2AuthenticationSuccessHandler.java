@@ -14,14 +14,16 @@ import org.springframework.web.util.WebUtils;
 import java.io.IOException;
 import java.util.Base64;
 
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REDIRECT_URI;
+
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    public static final String AUTHORIZED_TOKEN_COOKIE_NAME = "AUTHORIZED_TOKEN";
+
     private final TokenProvider tokenProvider;
-
     private final ApplicationProperty applicationProperty;
-
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Autowired
@@ -35,12 +37,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
         String token = tokenProvider.createToken(authentication);
-
-        CookieUtils.addCookie(response, "AUTHORIZED_TOKEN", token, this.applicationProperty.getSecurity().getTokenExpirationMsec());
+        CookieProcessor.addCookie(response, AUTHORIZED_TOKEN_COOKIE_NAME, token, this.applicationProperty.getSecurity().getTokenExpirationMsec());
         clearAuthenticationAttributes(request, response);
-        Cookie savedRequestCookie = WebUtils.getCookie(request, "REDIRECT_URI");
+        Cookie savedRequestCookie = WebUtils.getCookie(request, REDIRECT_URI);
         if (savedRequestCookie == null) {
             super.onAuthenticationSuccess(request, response, authentication);
         } else {
