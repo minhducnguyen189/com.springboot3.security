@@ -8,8 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -48,6 +52,8 @@ public class SecurityConfig {
                                                 .authorizationRequestRepository(this.httpCookieOAuth2AuthorizationRequestRepository))
                                 .successHandler(this.oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(this.oAuth2AuthenticationFailureHandler))
+                .logout(logout -> logout
+                        .logoutSuccessHandler(new SimpleUrlLogoutSuccessHandler()))
                 .sessionManagement(sessionConfig ->
                         sessionConfig.sessionCreationPolicy(SessionCreationPolicy.NEVER)
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1)))

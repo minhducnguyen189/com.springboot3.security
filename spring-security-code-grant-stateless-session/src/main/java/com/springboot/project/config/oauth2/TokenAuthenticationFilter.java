@@ -1,9 +1,6 @@
 package com.springboot.project.config.oauth2;
 
-import com.springboot.project.config.ApplicationProperty;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -26,26 +23,17 @@ import static com.springboot.project.config.oauth2.OAuth2AuthenticationSuccessHa
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
-    private final ApplicationProperty applicationProperty;
 
     @Autowired
-    public TokenAuthenticationFilter(TokenProvider tokenProvider,
-                                     ApplicationProperty applicationProperty) {
+    public TokenAuthenticationFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
-        this.applicationProperty = applicationProperty;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
         if (StringUtils.hasText(jwt)) {
-
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(this.applicationProperty.getSecurity().getTokenSecret().getBytes()))
-                    .build()
-                    .parseClaimsJws(jwt)
-                    .getBody();
-
+            Claims claims = tokenProvider.verifyAndGetClaims(jwt);
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(claims, null, Collections.emptyList());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -21,7 +21,8 @@ public class ApplicationProperty {
     public static class Security {
         private List<String> redirectUrls;
         private String tokenSecret;
-        private Integer tokenExpirationMsec;
+        private String tokenExpirationDuration;
+        private List<String> keycloakIdTokenSpecialClaims;
     }
 
 }
