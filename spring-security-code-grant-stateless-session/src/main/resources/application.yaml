@@ -31,5 +31,4 @@ application:
       - auth_time
     token-secret: "e71f8b9b280baa29eec67ec7510025e41522c225e7d540b89d5ac9d7f686f8d5bee150b1615bb0a35081039d5f5a1c19fc904a56ffe8b3de5bf1bedda5b0aaef"
     token-expiration-duration: "PT3M"
-    redirect-urls:
-      - "http://localhost:7070/login/oauth2/code/keycloak"
+    logout-redirect-uri: "http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/logout"

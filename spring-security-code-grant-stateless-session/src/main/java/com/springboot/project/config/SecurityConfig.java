@@ -21,18 +21,21 @@ public class SecurityConfig {
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final CustomCookieRequestCache customCookieRequestCache;
+    private final OAuth2LogoutSuccessHandler oAuth2LogoutSuccessHandler;
 
     @Autowired
     public SecurityConfig(HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository,
                           OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
                           OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler,
                           TokenAuthenticationFilter tokenAuthenticationFilter,
-                          CustomCookieRequestCache customCookieRequestCache) {
+                          CustomCookieRequestCache customCookieRequestCache,
+                          OAuth2LogoutSuccessHandler oAuth2LogoutSuccessHandler) {
         this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
         this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
         this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
         this.tokenAuthenticationFilter = tokenAuthenticationFilter;
         this.customCookieRequestCache = customCookieRequestCache;
+        this.oAuth2LogoutSuccessHandler = oAuth2LogoutSuccessHandler;
     }
 
     @Bean
@@ -43,14 +46,14 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
+                .logout(logout -> logout
+                        .logoutSuccessHandler(this.oAuth2LogoutSuccessHandler))
                 .oauth2Login(oauth2 ->
                         oauth2.authorizationEndpoint(authorizationEndpointConfig ->
                                         authorizationEndpointConfig
                                                 .authorizationRequestRepository(this.httpCookieOAuth2AuthorizationRequestRepository))
                                 .successHandler(this.oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(this.oAuth2AuthenticationFailureHandler))
-                .logout(logout -> logout
-                        .logoutSuccessHandler(new SimpleUrlLogoutSuccessHandler()))
                 .sessionManagement(sessionConfig ->
                         sessionConfig.sessionCreationPolicy(SessionCreationPolicy.NEVER)
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1)))

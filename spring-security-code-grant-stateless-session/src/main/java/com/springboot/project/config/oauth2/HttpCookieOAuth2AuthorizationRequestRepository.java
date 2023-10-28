@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
 
+import static com.springboot.project.config.oauth2.OAuth2AuthenticationSuccessHandler.AUTHORIZED_TOKEN_COOKIE_NAME;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REDIRECT_URI;
 
 @Component
@@ -45,6 +46,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 
     public void removeAuthorizationRequestCookies(HttpServletRequest request, HttpServletResponse response) {
         CookieProcessor.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
+        CookieProcessor.deleteCookie(request, response, AUTHORIZED_TOKEN_COOKIE_NAME);
         CookieProcessor.deleteCookie(request, response, REDIRECT_URI);
     }
 

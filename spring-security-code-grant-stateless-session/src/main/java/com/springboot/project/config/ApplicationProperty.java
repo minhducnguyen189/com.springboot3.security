@@ -23,6 +23,7 @@ public class ApplicationProperty {
         private String tokenSecret;
         private String tokenExpirationDuration;
         private List<String> keycloakIdTokenSpecialClaims;
+        private String logoutRedirectUri;
     }
 
 }

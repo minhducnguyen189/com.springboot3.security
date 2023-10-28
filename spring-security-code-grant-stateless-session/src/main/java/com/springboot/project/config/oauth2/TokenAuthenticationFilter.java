@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Optional;
 
 import static com.springboot.project.config.oauth2.OAuth2AuthenticationSuccessHandler.AUTHORIZED_TOKEN_COOKIE_NAME;
 
@@ -43,16 +44,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie :cookies) {
-                if (cookie.getName().equals(AUTHORIZED_TOKEN_COOKIE_NAME)) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
+        Optional<Cookie> authCookie = CookieProcessor.getCookie(request, AUTHORIZED_TOKEN_COOKIE_NAME);
+        return authCookie.map(Cookie::getValue).orElse(null);
     }
-
 
 }

@@ -31,6 +31,7 @@ public class TokenProvider {
         DefaultOidcUser userPrincipal = (DefaultOidcUser) authentication.getPrincipal();
         Map<String, Object> idTokenClaims = userPrincipal.getClaims();
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id_token_hint", userPrincipal.getIdToken().getTokenValue());
         for (Map.Entry<String, Object> idTokenClaim: idTokenClaims.entrySet()) {
             if (this.applicationProperty.getSecurity().getKeycloakIdTokenSpecialClaims().contains(idTokenClaim.getKey())) {
                 if (idTokenClaim.getKey().equals("iss")) {
