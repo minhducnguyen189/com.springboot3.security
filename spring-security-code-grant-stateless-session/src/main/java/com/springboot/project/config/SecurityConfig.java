@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +46,13 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated())
                 .logout(logout -> logout
-                        .logoutSuccessHandler(this.oAuth2LogoutSuccessHandler))
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler(this.oAuth2LogoutSuccessHandler)
+                        .logoutSuccessUrl("/v1/public/messages")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("AUTHORIZED_TOKEN", "OAUTH2_AUTH_REQUEST", "redirect_uri")
+                )
                 .oauth2Login(oauth2 ->
                         oauth2.authorizationEndpoint(authorizationEndpointConfig ->
                                         authorizationEndpointConfig
