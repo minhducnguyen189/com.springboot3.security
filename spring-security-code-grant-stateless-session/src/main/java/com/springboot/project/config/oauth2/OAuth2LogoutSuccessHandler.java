@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static com.springboot.project.config.oauth2.OAuth2AuthenticationSuccessHandler.AUTHORIZED_TOKEN_COOKIE_NAME;
+import static com.springboot.project.config.oauth2.TokenProvider.ID_TOKEN_HINT_CLAIM;
 
 
 @Component
@@ -41,9 +41,9 @@ public class OAuth2LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         if (authCookie.isPresent()) {
             Claims claims = this.tokenProvider.verifyAndGetClaims(authCookie.get().getValue());
             String targetUrl = UriComponentsBuilder
-                    .fromUriString(this.applicationProperty.getSecurity().getLogoutRedirectUri())
-                    .queryParam("post_logout_redirect_uri", "http://localhost:7070/v1/public/messages")
-                    .queryParam("id_token_hint", claims.get("id_token_hint"))
+                    .fromUriString(this.applicationProperty.getSecurity().getProviderLogoutUri())
+                    .queryParam("post_logout_redirect_uri", this.applicationProperty.getSecurity().getPostLogoutRedirectUri())
+                    .queryParam("id_token_hint", claims.get(ID_TOKEN_HINT_CLAIM))
                     .build().toUriString();
             request.logout();
             getRedirectStrategy().sendRedirect(request, response, targetUrl);

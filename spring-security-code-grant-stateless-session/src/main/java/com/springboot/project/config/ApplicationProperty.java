@@ -19,11 +19,14 @@ public class ApplicationProperty {
     @Getter
     @Setter
     public static class Security {
+        private String[] allowedApis;
         private List<String> redirectUrls;
         private String tokenSecret;
         private String tokenExpirationDuration;
         private List<String> keycloakIdTokenSpecialClaims;
-        private String logoutRedirectUri;
+        private String providerLogoutUri;
+        private String logoutApiPath;
+        private String postLogoutRedirectUri;
     }
 
 }
