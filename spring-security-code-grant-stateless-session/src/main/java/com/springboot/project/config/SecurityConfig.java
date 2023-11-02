@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.CacheControlHeadersWriter;
 
 import static com.springboot.project.config.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME;
 import static com.springboot.project.config.oauth2.OAuth2AuthenticationSuccessHandler.AUTHORIZED_TOKEN_COOKIE_NAME;
@@ -54,6 +56,7 @@ public class SecurityConfig {
                                 .authenticated())
                 .logout(logout -> logout
                         .logoutUrl(this.applicationProperty.getSecurity().getLogoutApiPath())
+                        .addLogoutHandler(new HeaderWriterLogoutHandler(new CacheControlHeadersWriter()))
                         .logoutSuccessHandler(this.oAuth2LogoutSuccessHandler)
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
