@@ -69,7 +69,7 @@ public class SecurityConfig {
                                 .successHandler(this.oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(this.oAuth2AuthenticationFailureHandler))
                 .sessionManagement(sessionConfig ->
-                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1)))
                 .requestCache(cache -> cache.requestCache(this.customCookieRequestCache))
                 .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
