@@ -21,6 +21,7 @@ import java.util.Map;
 public class TokenProvider {
 
     public static String ID_TOKEN_HINT_CLAIM = "id_token_hint";
+    public static String OIDC_USER_CLAIM = "oidc_user_claim";
 
     private final ApplicationProperty applicationProperty;
 
@@ -34,6 +35,7 @@ public class TokenProvider {
         Map<String, Object> idTokenClaims = userPrincipal.getClaims();
         Map<String, Object> claims = new HashMap<>();
         claims.put(ID_TOKEN_HINT_CLAIM, userPrincipal.getIdToken().getTokenValue());
+        claims.put(OIDC_USER_CLAIM, userPrincipal.getUserInfo());
         for (Map.Entry<String, Object> idTokenClaim: idTokenClaims.entrySet()) {
             if (this.applicationProperty.getSecurity().getKeycloakIdTokenSpecialClaims().contains(idTokenClaim.getKey())) {
                 if (idTokenClaim.getKey().equals("iss")) {
