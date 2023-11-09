@@ -36,7 +36,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String token = tokenProvider.createToken(authentication);
         Duration duration = Duration.parse(this.applicationProperty.getSecurity().getTokenExpirationDuration());
-        CookieProcessor.addCookie(response, AUTHORIZED_TOKEN_COOKIE_NAME, token, duration.toMinutesPart() * 60);
+        CookieProcessor.addSecureCookie(response, AUTHORIZED_TOKEN_COOKIE_NAME, token, duration.toMinutesPart() * 60);
         clearAuthenticationAttributes(request, response);
         Cookie savedRequestCookie = WebUtils.getCookie(request, "REDIRECT_URI");
         if (savedRequestCookie == null) {

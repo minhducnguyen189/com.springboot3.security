@@ -30,6 +30,16 @@ public class CookieProcessor {
         response.addCookie(cookie);
     }
 
+    public static void addSecureCookie(HttpServletResponse response, String name, String value, int maxAge) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(maxAge);
+        cookie.setSecure(false);
+        cookie.setAttribute("SameSite", "strict");
+        response.addCookie(cookie);
+    }
+
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
