@@ -13,6 +13,7 @@
         <module>azure-active-directory-integration</module>
         <module>spring-security-code-grant-stateless-session</module>
         <module>spring-security-code-grant-oidc-user-roles</module>
+        <module>spring-security-code-grant-iodc-user-roles-csrf</module>
     </modules>
 
     <properties>
