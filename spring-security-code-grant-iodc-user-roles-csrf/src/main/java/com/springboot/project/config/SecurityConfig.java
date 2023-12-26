@@ -56,7 +56,7 @@ public class SecurityConfig {
         xorCsrfTokenRequestAttributeHandler.setCsrfRequestAttributeName("_csrf");
         http.csrf(csrf ->
                         csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .csrfTokenRequestHandler(xorCsrfTokenRequestAttributeHandler::handle))
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(this.applicationProperty.getSecurity().getAllowedApis())
                                 .permitAll()
@@ -83,7 +83,7 @@ public class SecurityConfig {
                         sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .requestCache(cache -> cache.requestCache(this.customCookieRequestCache))
                 .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new CustomCsrfFilter(), ExceptionTranslationFilter.class);
+                .addFilterAfter(new CsrfCookieFilter(), ExceptionTranslationFilter.class);
         return http.build();
 
     }
