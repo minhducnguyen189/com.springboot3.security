@@ -8,7 +8,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: auth-code-grant-type
-            client-secret: QXHFcSiFLF96KassAQppb9HJtZ45Lbbf
+            client-secret: SxpUfx2cN0Hs0t2ZF2r1y0dRnY71Ggct
             authorization-grant-type: authorization_code
             scope: openid, profile, email
             redirect-uri: "http://localhost:7070/login/oauth2/code/keycloak"
