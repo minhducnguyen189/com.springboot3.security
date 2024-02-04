@@ -13,7 +13,6 @@ import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Base64;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -43,7 +42,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         if (savedRequestCookie == null) {
             super.onAuthenticationSuccess(request, response, authentication);
         } else {
-            String originalURI = new String(Base64.getDecoder().decode(savedRequestCookie.getValue().getBytes()));
+            String originalURI = CookieProcessor.deserialize(savedRequestCookie, String.class);
             getRedirectStrategy().sendRedirect(request, response, originalURI);
         }
     }
