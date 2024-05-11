@@ -15,6 +15,7 @@
         <module>spring-security-code-grant-oidc-user-roles</module>
         <module>spring-security-code-grant-iodc-user-roles-csrf</module>
         <module>spring-security-code-grant-iodc-user-roles-csrf-xor</module>
+        <module>spring-configuration-property-documenter</module>
     </modules>
 
     <properties>
