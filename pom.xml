@@ -16,6 +16,7 @@
         <module>spring-security-code-grant-iodc-user-roles-csrf</module>
         <module>spring-security-code-grant-iodc-user-roles-csrf-xor</module>
         <module>spring-configuration-property-documenter</module>
+        <module>google-recaptcha-v3-integration</module>
     </modules>
 
     <properties>

@@ -1,0 +1,6 @@
+
+google:
+  recaptcha:
+    domain: "https://www.google.com"
+    verify-api: "/recaptcha/api/siteverify"
+    secret: "6LcfT9wpAAAAAB8Ou4jmHxzFFAvzQyDwm7REjIW_"
