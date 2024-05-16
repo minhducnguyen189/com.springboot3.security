@@ -1,6 +1,6 @@
 export const environment = {
     recaptcha: {
         beDomain: 'http://localhost:8080',
-        siteKey: '6LciWN4pAAAAAO3AxkqcSfIbAo5J2rpZxAHXgVZ-',
+        siteKey: '6LdO094pAAAAAE7YiAeHOQx7Af_Id128A4nw5yu0',
     }
 };

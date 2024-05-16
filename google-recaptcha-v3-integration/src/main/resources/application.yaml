@@ -3,4 +3,4 @@ google:
   recaptcha:
     domain: "https://www.google.com"
     verify-api: "/recaptcha/api/siteverify"
-    secret: "6LciWN4pAAAAAPUQmE_0SYqOMm4WtIvMJVBOj92f"
+    secret: "6LdO094pAAAAAEFMQXywTlrV2hERuLHN7fH5HasQ"
