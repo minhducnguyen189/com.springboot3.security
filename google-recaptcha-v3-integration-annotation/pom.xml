@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>google-recaptcha-v3-annotation-integration</artifactId>
+    <artifactId>google-recaptcha-v3-integration-annotation</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
