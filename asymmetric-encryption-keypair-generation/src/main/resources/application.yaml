@@ -1,0 +1,5 @@
+
+
+encryption:
+  asymmetric:
+    key-size: 2048

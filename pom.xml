@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-security-code-grant-type</module>
-        <module>azure-active-directory-integration</module>
         <module>spring-security-code-grant-stateless-session</module>
         <module>spring-security-code-grant-oidc-user-roles</module>
         <module>spring-security-code-grant-iodc-user-roles-csrf</module>
@@ -18,6 +17,7 @@
         <module>spring-configuration-property-documenter</module>
         <module>google-recaptcha-v3-integration</module>
         <module>google-recaptcha-v3-integration-annotation</module>
+        <module>asymmetric-encryption-keypair-generation</module>
     </modules>
 
     <properties>
