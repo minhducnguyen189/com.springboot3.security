@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { SecretMessage } from './service/secret-message.service';
 
@@ -14,20 +13,18 @@ export class AppComponent {
     private secretMessage: SecretMessage,
   ) {};
 
-  // formControl: FormControl = new FormControl('');
   secureMessage: string = '';
-  
-  public getSecureMessage(): void {
 
+  public getSecureMessage(): void {
     this.recaptchaV3Service.execute('importantAction')
     .subscribe((token: string) => {
       console.debug(`Token [${token}] generated`);
       this.secretMessage.getSecretMessage(token)
-      .subscribe(result => 
+      .subscribe(result =>
         this.secureMessage = result
       );
     });
   }
 
-  
+
 }

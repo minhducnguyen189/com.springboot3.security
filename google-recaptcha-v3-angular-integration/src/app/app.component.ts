@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { GoogleRecaptchaService } from './service/google-recaptcha.service';
 
@@ -14,14 +13,7 @@ export class AppComponent {
     private googleRecaptchaService: GoogleRecaptchaService) {
   }
 
-  public send(form: NgForm): void {
-    if (form.invalid) {
-      for (const control of Object.keys(form.controls)) {
-        form.controls[control].markAsTouched();
-      }
-      return;
-    }
-
+  public send(): void {
     this.recaptchaV3Service.execute('importantAction')
     .subscribe((token: string) => {
       console.debug(`Token [${token}] generated`);
