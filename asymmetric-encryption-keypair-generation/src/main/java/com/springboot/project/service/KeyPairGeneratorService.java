@@ -3,6 +3,7 @@ package com.springboot.project.service;
 import com.springboot.project.config.ApplicationProperty;
 import com.springboot.project.model.KeyPairResponse;
 import org.apache.tomcat.util.buf.HexUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class KeyPairGeneratorService {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             KeyPairResponse keyPairResponse = new KeyPairResponse();
 
-            keyPairResponse.setPrivateKey(HexUtils.toHexString(keyPair.getPrivate().getEncoded()));
-            keyPairResponse.setPublicKey(HexUtils.toHexString(keyPair.getPublic().getEncoded()));
+            keyPairResponse.setPrivateKey(Base64.encodeBase64String(keyPair.getPrivate().getEncoded()));
+            keyPairResponse.setPublicKey(Base64.encodeBase64String((keyPair.getPublic().getEncoded())));
 
             return keyPairResponse;
         } catch (NoSuchAlgorithmException e) {

@@ -18,6 +18,7 @@
         <module>google-recaptcha-v3-integration</module>
         <module>google-recaptcha-v3-integration-annotation</module>
         <module>asymmetric-encryption-keypair-generation</module>
+        <module>asymmetric-encryption-keypair</module>
     </modules>
 
     <properties>
