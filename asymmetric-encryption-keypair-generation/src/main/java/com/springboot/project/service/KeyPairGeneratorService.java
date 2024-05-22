@@ -2,7 +2,6 @@ package com.springboot.project.service;
 
 import com.springboot.project.config.ApplicationProperty;
 import com.springboot.project.model.KeyPairResponse;
-import org.apache.tomcat.util.buf.HexUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
