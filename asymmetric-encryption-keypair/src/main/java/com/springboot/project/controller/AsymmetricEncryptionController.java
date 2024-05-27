@@ -24,13 +24,13 @@ public class AsymmetricEncryptionController {
     @RequestMapping(method = RequestMethod.POST, path = "/v1/asymmetric-encryption/actions/encrypt")
     public ResponseEntity<String> encryptDataWithPrivateKey(@RequestBody EncryptionDataRequest encryptionDataRequest) {
         return new ResponseEntity<>(this.asymmetricEncryptionService
-                .encryptDataWithPrivateKey(encryptionDataRequest.getData()), HttpStatus.OK);
+                .encryptDataWithPublicKey(encryptionDataRequest.getData()), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/v1/asymmetric-encryption/actions/decrypt")
     public ResponseEntity<String> encryptDataWithPrivateKey(@RequestBody DecryptionDataRequest decryptionDataRequest) {
         return new ResponseEntity<>(this.asymmetricEncryptionService
-                .decryptDataWithPublicKey(decryptionDataRequest.getEncryptionData()), HttpStatus.OK);
+                .decryptDataWithPrivateKey(decryptionDataRequest.getEncryptionData()), HttpStatus.OK);
     }
 
 }

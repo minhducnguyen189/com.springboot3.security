@@ -25,17 +25,17 @@ public class AsymmetricEncryptionService {
         this.applicationProperty = applicationProperty;
     }
 
-    public String encryptDataWithPrivateKey(String data) {
+    public String encryptDataWithPublicKey(String data) {
         try {
             Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
-            byte[] pkcs8EncodedBytes = Base64
+            byte[] x509EncodedBytes = Base64
                     .getDecoder()
-                    .decode(this.applicationProperty.getPrivateKey().getBytes(StandardCharsets.UTF_8));
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
+                    .decode(this.applicationProperty.getPublicKey().getBytes(StandardCharsets.UTF_8));
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(x509EncodedBytes);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+            PublicKey publicKey = keyFactory.generatePublic(keySpec);
 
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] cipherBytes = cipher.doFinal(data.getBytes());
 
             return Base64
@@ -46,17 +46,17 @@ public class AsymmetricEncryptionService {
         }
     }
 
-    public String decryptDataWithPublicKey(String encryptedData) {
+    public String decryptDataWithPrivateKey(String encryptedData) {
         try {
             Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
             byte[] pkcs8EncodedBytes = Base64
                     .getDecoder()
-                    .decode(this.applicationProperty.getPublicKey());
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(pkcs8EncodedBytes);
+                    .decode(this.applicationProperty.getPrivateKey());
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
-            PublicKey publicKey = keyFactory.generatePublic(keySpec);
+            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
 
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
             byte[] cipherBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedData.getBytes()));
 
             return new String(cipherBytes);
