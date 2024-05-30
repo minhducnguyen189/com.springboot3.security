@@ -8,6 +8,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: auth-code-grant-type
+            # SxpUfx2cN0Hs0t2ZF2r1y0dRnY71Ggct
             client-secret: QXHFcSiFLF96KassAQppb9HJtZ45Lbbf
             authorization-grant-type: authorization_code
             scope: openid, profile, email
