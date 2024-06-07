@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-security-code-grant-stateless-session</artifactId>
+    <artifactId>spring-security-code-grant-oidc-user-roles-csrf-xor</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -99,7 +99,6 @@
             <version>0.12.3</version>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -125,6 +124,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
