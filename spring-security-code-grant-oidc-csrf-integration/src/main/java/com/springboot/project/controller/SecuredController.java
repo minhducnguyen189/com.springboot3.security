@@ -16,7 +16,7 @@ public class SecuredController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/secure/messages/user")
+    @RequestMapping(method = RequestMethod.POST, path = "/v1/secure/messages/user")
     public ResponseEntity<String> getUserMessage() {
         return ResponseEntity.ok("Secured Message From User Api!");
     }

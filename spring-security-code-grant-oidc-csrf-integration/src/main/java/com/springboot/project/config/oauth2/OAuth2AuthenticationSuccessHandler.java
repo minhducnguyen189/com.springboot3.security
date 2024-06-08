@@ -18,25 +18,20 @@ import java.time.Duration;
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     public static final String AUTHORIZED_TOKEN_COOKIE_NAME = "AUTHORIZED_TOKEN";
-
     private final TokenProvider tokenProvider;
-    private final ApplicationProperty applicationProperty;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Autowired
     public OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider,
-                                              ApplicationProperty applicationProperty,
                                               HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
         this.tokenProvider = tokenProvider;
-        this.applicationProperty = applicationProperty;
         this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String token = tokenProvider.createToken(authentication);
-        Duration duration = Duration.parse(this.applicationProperty.getSecurity().getTokenExpirationDuration());
-        CookieProcessor.addSecureCookie(response, AUTHORIZED_TOKEN_COOKIE_NAME, token, duration.toHoursPart() * 60 * 60 * 1000);
+        CookieProcessor.addSecureCookie(response, AUTHORIZED_TOKEN_COOKIE_NAME, token, this.tokenProvider.getExpiredTime());
         clearAuthenticationAttributes(request, response);
         Cookie savedRequestCookie = WebUtils.getCookie(request, "REDIRECT_URI");
         if (savedRequestCookie == null) {

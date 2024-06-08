@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,27 +32,24 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication) {
+        Date now = new Date();
         DefaultOidcUser userPrincipal = (DefaultOidcUser) authentication.getPrincipal();
         Map<String, Object> idTokenClaims = userPrincipal.getClaims();
         Map<String, Object> claims = new HashMap<>();
         claims.put(ID_TOKEN_HINT_CLAIM, userPrincipal.getIdToken().getTokenValue());
         claims.put(OIDC_USER_CLAIM, userPrincipal.getUserInfo());
         for (Map.Entry<String, Object> idTokenClaim: idTokenClaims.entrySet()) {
-            if (this.applicationProperty.getSecurity().getKeycloakIdTokenSpecialClaims().contains(idTokenClaim.getKey())) {
-                if (idTokenClaim.getKey().equals("iss")) {
-                    String issValue = String.valueOf(idTokenClaim.getValue());
-                    claims.put(idTokenClaim.getKey(), issValue);
-                } else {
-                    Instant instantClaim = Instant.parse(String.valueOf(idTokenClaim.getValue()));
-                    claims.put(idTokenClaim.getKey(), Date.from(instantClaim));
-                }
+            if (this.applicationProperty.getSecurity().getKeycloakIdTokenIgnoredClaims().contains(idTokenClaim.getKey())) {
                 continue;
             }
             claims.put(idTokenClaim.getKey(), idTokenClaim.getValue());
         }
         return Jwts.builder()
                 .subject(userPrincipal.getSubject())
+                .issuer("spring security code grant oidc csrf integration")
                 .claims(claims)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + this.getExpiredTime()))
                 .signWith(
                         Keys.hmacShaKeyFor(this.applicationProperty.getSecurity().getTokenSecret().getBytes()),
                         Jwts.SIG.HS512)
@@ -64,6 +62,11 @@ public class TokenProvider {
                 .build()
                 .parseSignedClaims(jwt)
                 .getPayload();
+    }
+
+    public int getExpiredTime() {
+        Duration duration = Duration.parse(this.applicationProperty.getSecurity().getTokenExpirationDuration());
+        return duration.toHoursPart() * 60 * 60 * 1000;
     }
 
 

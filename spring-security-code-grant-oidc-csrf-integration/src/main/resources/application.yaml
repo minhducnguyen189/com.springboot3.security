@@ -28,7 +28,7 @@ application:
     allowed-apis:
       - "/v1/public/**"
       - "/error"
-    keycloak-id-token-special-claims:
+    keycloak-id-token-ignored-claims:
       - iss
       - iat
       - exp
@@ -40,4 +40,4 @@ application:
     login-api-path: "/v1/authentication/login"
     post-logout-redirect-uri: "http://localhost:7070/v1/public/messages"
   front-end:
-    domain: "localhost:4200"
+    domain: "http://localhost:4200"

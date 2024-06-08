@@ -24,7 +24,7 @@ public class ApplicationProperty {
         private List<String> redirectUrls;
         private String tokenSecret;
         private String tokenExpirationDuration;
-        private List<String> keycloakIdTokenSpecialClaims;
+        private List<String> keycloakIdTokenIgnoredClaims;
         private String providerLogoutUri;
         private String logoutApiPath;
         private String loginApiPath;
