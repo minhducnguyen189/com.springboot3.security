@@ -1,0 +1,43 @@
+server:
+  port: 7070
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: auth-code-grant-type
+            # SxpUfx2cN0Hs0t2ZF2r1y0dRnY71Ggct
+            client-secret: QXHFcSiFLF96KassAQppb9HJtZ45Lbbf
+            authorization-grant-type: authorization_code
+            scope: openid, profile, email
+            redirect-uri: "http://localhost:7070/login/oauth2/code/keycloak"
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/myrealm
+            authorization-uri: http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/token
+            user-info-uri: http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/certs
+
+
+application:
+  deployment-base-url: "http://localhost:7070"
+  security:
+    allowed-apis:
+      - "/v1/public/**"
+      - "/error"
+    keycloak-id-token-ignored-claims:
+      - iss
+      - iat
+      - exp
+      - auth_time
+    token-secret: "e71f8b9b280baa29eec67ec7510025e41522c225e7d540b89d5ac9d7f686f8d5bee150b1615bb0a35081039d5f5a1c19fc904a56ffe8b3de5bf1bedda5b0aaef"
+    token-expiration-duration: "PT8H"
+    provider-logout-uri: "http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/logout"
+    logout-api-path: "/v1/logout"
+    login-api-path: "/v1/authentication/login"
+    post-logout-redirect-uri: "http://localhost:7070/v1/public/messages"
+  front-end:
+    domain: "http://localhost:4200"

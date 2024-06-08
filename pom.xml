@@ -20,6 +20,7 @@
         <module>asymmetric-encryption-keypair-generation</module>
         <module>asymmetric-encryption-keypair</module>
         <module>spring-security-code-grant-oidc-csrf-integration</module>
+        <module>spring-security-code-grant-oidc-csrf-race-condition-integration</module>
     </modules>
 
     <properties>
