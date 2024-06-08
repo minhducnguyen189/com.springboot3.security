@@ -64,6 +64,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": { 
+            "host": "customdomain.baz",
+            "port": 4500
+          },
           "configurations": {
             "production": {
               "browserTarget": "code-grant-oidc-angular-csrf-hacker-integration:build:production"
