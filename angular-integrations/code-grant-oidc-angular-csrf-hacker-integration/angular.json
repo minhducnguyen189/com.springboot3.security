@@ -74,9 +74,6 @@
             },
             "development": {
               "browserTarget": "code-grant-oidc-angular-csrf-hacker-integration:build:development"
-            },
-            "options": {
-              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

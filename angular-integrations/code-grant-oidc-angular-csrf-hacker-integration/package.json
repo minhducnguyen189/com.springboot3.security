@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config src/proxy.config.json --port 4500 --host customdomain.baz",
+    "start": "ng serve --port 4500 --host customdomain.baz",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
