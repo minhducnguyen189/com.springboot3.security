@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>spring-security-code-grant-type</module>
-        <module>spring-security-code-grant-stateless-session</module>
+        <module>spring-security-code-grant-oidc</module>
+        <module>spring-security-code-grant-oidc-stateless-session</module>
         <module>spring-security-code-grant-oidc-user-roles</module>
         <module>spring-security-code-grant-oidc-user-roles-csrf</module>
         <module>spring-security-code-grant-oidc-user-roles-csrf-xor</module>
