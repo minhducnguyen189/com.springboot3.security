@@ -1,0 +1,29 @@
+<div class="dashboard-container">
+
+  <div class="tables-section">
+    <h2>Transactions</h2>
+    <div class="transaction-controls">
+      <button mat-raised-button color="primary" (click)="loadTransactions()" [disabled]="loading">
+        {{ loading ? 'Loading...' : 'Refresh Transactions' }}
+      </button>
+      <mat-slide-toggle
+          [checked]="useCursorFilter"
+          (change)="onFilterModeChange($event)"
+          color="primary"
+          style="margin-left: 15px;">
+        Use Cursor Filter
+      </mat-slide-toggle>
+      <span *ngIf="loadingTime !== null" style="margin-left: 10px;">
+        Loaded in {{ loadingTime / 1000 | number:'1.3-3' }} s
+      </span>
+    </div>
+    <lib-table 
+      [data]="transactions" 
+      [displayedColumns]="['transactionNumber', 'date', 'domain', 'location', 'value', 'status', 'paymentMethod', 'taxAmount', 'netValue']"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [totalItems]="totalItems"
+      (pageChange)="onPageChange($event)"
+    ></lib-table>
+  </div>
+</div>
