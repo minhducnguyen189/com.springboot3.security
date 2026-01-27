@@ -1,10 +1,9 @@
 package com.springboot.project.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,5 +26,4 @@ public class RecaptchaResponse {
 
     @JsonProperty("errorCodes")
     private List<String> errorCodes;
-
 }

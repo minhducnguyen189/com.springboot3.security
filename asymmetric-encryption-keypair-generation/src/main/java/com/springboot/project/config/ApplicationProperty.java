@@ -12,5 +12,4 @@ import org.springframework.stereotype.Component;
 public class ApplicationProperty {
 
     private int keySize;
-
 }

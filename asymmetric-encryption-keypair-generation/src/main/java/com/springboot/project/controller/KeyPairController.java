@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KeyPairController {
 
-
     private final KeyPairGeneratorService keyPairGeneratorService;
 
     @Autowired
@@ -21,9 +20,12 @@ public class KeyPairController {
         this.keyPairGeneratorService = keyPairGeneratorService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/v1/asymmetric-encryption/actions/generate-keypair", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "/v1/asymmetric-encryption/actions/generate-keypair",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<KeyPairResponse> getKeyPair() {
-        return new ResponseEntity<>(this.keyPairGeneratorService.generateKeyPair(), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                this.keyPairGeneratorService.generateKeyPair(), HttpStatus.CREATED);
     }
-
 }

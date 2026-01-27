@@ -20,5 +20,4 @@ public class SecuredController {
     public ResponseEntity<String> getUserMessage() {
         return ResponseEntity.ok("Secured Message From User Api!");
     }
-
 }

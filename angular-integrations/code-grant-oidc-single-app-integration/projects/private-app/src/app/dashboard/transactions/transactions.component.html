@@ -19,8 +19,9 @@
     </div>
     <lib-table 
       [data]="transactions" 
-      [displayedColumns]="['transactionNumber', 'date', 'domain', 'location', 'value', 'status', 'paymentMethod', 'taxAmount', 'netValue']"
-      [pageSize]="pageSize"
+      [displayedColumns]="['transactionNumber', 'sequenceNumber', 'date', 'domain', 'location', 'value', 'status', 'paymentMethod', 'taxAmount', 'netValue']"
+      [pageSize]="pageSizeValue"
+      [pageSizeOptions]="[50, 100, 200, 1000]"
       [pageIndex]="pageIndex"
       [totalItems]="totalItems"
       (pageChange)="onPageChange($event)"

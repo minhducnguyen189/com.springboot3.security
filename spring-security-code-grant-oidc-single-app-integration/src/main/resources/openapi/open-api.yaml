@@ -1,0 +1,376 @@
+openapi: 3.0.3
+info:
+  title: Swagger Customer - OpenAPI 3.0
+  description: Everything about sample hibernate second level cache
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: /api
+tags:
+  - name: authentication
+    description: Everything about authentication
+  - name: login-user
+    description: Everything about login users
+paths:
+  /private-app/actions/authenticate:
+    get:
+      tags:
+        - authentication
+      summary: Authentication login redirect
+      description: >
+        Redirects the user to the frontend application after authentication.
+        If redirectPath is not provided, defaults to /pages/dashboard.
+      operationId: authenticationLogin
+      parameters:
+        - name: redirectPath
+          in: query
+          required: false
+          description: Optional path to redirect after login
+          schema:
+            type: string
+            example: /pages/private-app/dashboard
+      responses:
+        "302":
+          description: Redirect to frontend application
+          headers:
+            Location:
+              description: Redirect target URL
+              schema:
+                type: string
+                format: uri
+        "400":
+          description: bad request operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: not found operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: internal server error operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /private-app/actions/refresh-token:
+    get:
+      tags:
+        - authentication
+      summary: refresh token login redirect
+      description: >
+        Redirects the user to the frontend application if the token is expired.
+      operationId: refreshToken
+      responses:
+        "302":
+          description: Redirect to frontend application
+          headers:
+            Location:
+              description: Redirect target URL
+              schema:
+                type: string
+                format: uri
+        "400":
+          description: bad request operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: not found operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: internal server error operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /private-app/users/actions/current:
+    get:
+      tags:
+        - login-user
+      summary: get current login user info
+      description: get current login user info
+      operationId: getCurrentLoginUser
+      security:
+        - bearerAuth: [ ]
+      responses:
+        "200":
+          description: Secured message from Admin API
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LoginUserResponse'
+        "401":
+          description: Unauthorized
+        "400":
+          description: bad request operation
+        "403":
+          description: forbidden
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /private-app/transactions/actions/filter:
+    post:
+      tags:
+        - transaction
+      summary: filter transactions
+      description: filter transactions
+      operationId: filterTransactions
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: filter request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionFilterRequest"
+      responses:
+        "200":
+          description: filter transaction response
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TransactionFilterResponse'
+        "401":
+          description: Unauthorized
+        "400":
+          description: bad request operation
+        "403":
+          description: forbidden
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /private-app/transactions/actions/filter-cursor:
+    post:
+      tags:
+        - transaction
+      summary: filter transactions with cursor
+      description: filter transactions with cursor
+      operationId: filterTransactionsWithCursor
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: filter request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionFilterRequest"
+      responses:
+        "200":
+          description: filter transaction response
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TransactionFilterResponse'
+        "401":
+          description: Unauthorized
+        "400":
+          description: bad request operation
+        "403":
+          description: forbidden
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    LoginUserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'b644b627-222f-473b-949d-2b880884a955'
+        email:
+          type: string
+          example: 'abc@example.com'
+        username:
+          type: string
+          example: 'join.wick'
+        name:
+          type: string
+          example: 'Join Wick'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRoleEnum'
+    TransactionFilterResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionDetail'
+        foundItems:
+          type: integer
+          format: int64
+        totalItems:
+          type: integer
+          format: int64
+        previousPageToken:
+          type: integer
+          format: int64
+        nextPageToken:
+          type: integer
+          format: int64
+    TransactionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        transactionNumber:
+          type: string
+        sequenceNumber:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+        domain:
+          $ref: '#/components/schemas/DomainEnum'
+        location:
+          type: string
+        value:
+          type: number
+          format: decimal
+        status:
+          $ref: '#/components/schemas/TransactionStatusEnum'
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+        taxAmount:
+          type: number
+          format: decimal
+        netValue:
+          type: number
+          format: decimal
+    TransactionFilterRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        domain:
+          $ref: '#/components/schemas/DomainEnum'
+        location:
+          type: string
+        value:
+          type: number
+          format: decimal
+        status:
+          $ref: '#/components/schemas/TransactionStatusEnum'
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+        taxAmount:
+          type: number
+          format: decimal
+        netValue:
+          type: number
+          format: decimal
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+    PaginationRequest:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        sortBy:
+          type: string
+        sortOrder:
+          $ref: '#/components/schemas/SortOrderEnum'
+        previousPageToken:
+          type: integer
+          format: int64
+        nextPageToken:
+          type: integer
+          format: int64
+    SortOrderEnum:
+      type: string
+      enum:
+        - ASC
+        - DESC
+    DomainEnum:
+      type: string
+      enum:
+        - EDUCATION
+        - INTERNATIONAL
+        - INVESTMENTS
+        - MEDICAL
+        - PUBLIC
+        - RESTAURANT
+        - RETAIL
+    TransactionStatusEnum:
+      type: string
+      enum:
+        - SUCCESS
+        - FAILED
+        - CANCELLED
+    PaymentMethodEnum:
+      type: string
+      enum:
+        - CARD
+        - CASH
+        - UPI
+    UserRoleEnum:
+      type: string
+      enum:
+        - ADMIN
+        - USER
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        status:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        timestamp:
+          type: string
+          format: date-time

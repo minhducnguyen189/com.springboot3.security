@@ -1,0 +1,187 @@
+/* =========================================================
+   VARIABLES & CONFIGURATION
+   ========================================================= */
+$row-height: 52px;
+$header-height: 56px;
+$border-color: #e0e0e0;
+$primary-color: #3f51b5;
+$hover-color: #f5f5f5;
+$text-color: rgba(0, 0, 0, 0.87);
+$header-text-color: rgba(0, 0, 0, 0.6);
+
+/* COLUMN CONFIGURATION 
+   Update: Changed 'value', 'taxAmount', 'netValue' to CENTER
+*/
+$columns: (
+  transactionNumber: (width: 240px, align: left),
+  sequenceNumber:    (width: 130px, align: center), /* Optional: centered this too since it's a number */
+  date:              (width: 140px, align: left),
+  domain:            (width: 160px, align: left),
+  location:          (width: 150px, align: left),
+  status:            (width: 120px, align: left),
+  paymentMethod:     (width: 160px, align: center),
+  value:             (width: 140px, align: left), /* CHANGED TO CENTER */
+  taxAmount:         (width: 140px, align: center), /* CHANGED TO CENTER */
+  netValue:          (width: 140px, align: center)  /* CHANGED TO CENTER */
+);
+
+@mixin table-typography {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+}
+
+/* =========================================================
+   LAYOUT CONTAINERS
+   ========================================================= */
+.table-container,
+.virtual-scroll-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 350px);
+  min-height: 400px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.table-container {
+  overflow: auto;
+}
+
+/* =========================================================
+   TABLE SHARED STYLES
+   ========================================================= */
+table.mat-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  @include table-typography;
+
+  /* Header Cells */
+  th.mat-header-cell {
+    height: $header-height;
+    color: $header-text-color;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    background: #fff;
+    border-bottom: 1px solid darken($border-color, 5%);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* Body Cells */
+  td.mat-cell {
+    height: $row-height;
+    color: $text-color;
+    border-bottom: 1px solid $border-color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tr.mat-row {
+    height: $row-height;
+    transition: background-color 0.2s ease;
+    &:hover { background-color: $hover-color; }
+  }
+}
+
+/* =========================================================
+   VIRTUAL SCROLL SPECIFIC
+   ========================================================= */
+.virtual-header {
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+}
+
+.virtual-viewport {
+  flex: 1;
+  width: 100%;
+  &::-webkit-scrollbar { width: 8px; height: 8px; }
+  &::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+}
+
+/* =========================================================
+   COLUMN GENERATION LOOP
+   ========================================================= */
+@each $name, $config in $columns {
+  $width: map-get($config, width);
+  $align: map-get($config, align);
+
+  .col-#{$name},
+  .mat-column-#{$name} {
+    width: $width;
+    min-width: $width;
+    max-width: $width;
+    padding: 0 16px;
+    box-sizing: border-box;
+    
+    // 1. Align the text for Data Cells (td)
+    text-align: $align;
+
+    // 2. Align the content for Header Cells (th)
+    // We target the internal flex container of mat-sort-header
+    @if $align == right {
+      ::ng-deep .mat-sort-header-container {
+        justify-content: flex-end; 
+      }
+    }
+    @else if $align == center {
+      ::ng-deep .mat-sort-header-container {
+        justify-content: center; // This centers the Sort Arrow + Text
+      }
+    }
+  }
+}
+
+/* =========================================================
+   OVERRIDES
+   ========================================================= */
+.col-transactionNumber,
+.mat-column-transactionNumber {
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* =========================================================
+   FOOTER / PAGINATION
+   ========================================================= */
+.footer-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  height: 56px;
+  border-top: 1px solid $border-color;
+  background: #fff;
+  @include table-typography;
+  
+  &.virtual-mode { background: #fafafa; }
+}
+
+.custom-page-size {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+  .label { margin-right: 8px; color: $header-text-color; }
+  .select-wrapper {
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: #fff;
+    min-width: 70px;
+    ::ng-deep .mat-select-value { color: $text-color; }
+  }
+}
+
+.all-mode-info {
+  font-weight: 500;
+  color: $primary-color;
+}

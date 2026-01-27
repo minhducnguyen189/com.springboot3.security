@@ -14,14 +14,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 import { StartupService } from './service/startup.service';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiModule, Configuration } from './rest-client';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
-import { SharedComponentsModule } from 'shared-components';
 import { TransactionsComponent } from './dashboard/transactions/transactions.component';
 import { AccountsComponent } from './dashboard/accounts/accounts.component';
+import { SharedComponentsModule } from "shared-components";
+import { RefreshTokenDialogComponent } from './refresh-token-dialog/refresh-token-dialog.component';
+import { RefreshActionDialogComponent } from './refresh-token-dialog/refresh-action-dialog/refresh-action-dialog.component';
+import { TokenRefreshSuccessComponent } from './token-refresh-success/token-refresh-success.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import { AccountsComponent } from './dashboard/accounts/accounts.component';
     DashboardComponent,
     ErrorPageComponent,
     TransactionsComponent,
-    AccountsComponent
+    AccountsComponent,
+    RefreshTokenDialogComponent,
+    RefreshActionDialogComponent,
+    TokenRefreshSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +50,13 @@ import { AccountsComponent } from './dashboard/accounts/accounts.component';
     MatSidenavModule,
     MatListModule,
     MatSlideToggleModule,
-    SharedComponentsModule,
+    MatDialogModule,
     HttpClientModule,
     ApiModule.forRoot(() => new Configuration({
-      basePath: window.location.origin + '/api'
-    }))
-  ],
+        basePath: window.location.origin + '/api'
+    })),
+    SharedComponentsModule
+],
   providers: [
     {
       provide: APP_INITIALIZER,

@@ -8,5 +8,4 @@ import lombok.Setter;
 public class EncryptionDataRequest {
 
     private String data;
-
 }

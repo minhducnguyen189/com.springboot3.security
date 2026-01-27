@@ -12,5 +12,4 @@ public class SecuredController {
     public ResponseEntity<String> getMessage() {
         return ResponseEntity.ok("Secured Message!");
     }
-
 }

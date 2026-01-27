@@ -15,5 +15,4 @@ public class RecaptchaValidationRequest {
 
     @FormProperty("remoteip")
     private String remoteIp;
-
 }

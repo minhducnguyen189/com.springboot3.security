@@ -26,13 +26,14 @@ public class GoogleReCaptchaAspect {
 
     @Around("@annotation(com.springboot.project.annotation.GoogleReCaptchaProtect)")
     public Object validateGoogleReCaptcha(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpServletRequest request =
+                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                        .getRequest();
         String captchaResponse = request.getHeader(CAPTCHA_HEADER_NAME);
         boolean isValidCaptcha = recaptchaService.verifyRecaptcha(captchaResponse);
-        if(!isValidCaptcha){
+        if (!isValidCaptcha) {
             throw new UnAuthorizationException("Invalid recaptcha");
         }
         return joinPoint.proceed();
     }
-
 }

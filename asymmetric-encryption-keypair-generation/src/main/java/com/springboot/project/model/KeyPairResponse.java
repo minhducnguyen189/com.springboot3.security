@@ -9,5 +9,4 @@ public class KeyPairResponse {
 
     private String publicKey;
     private String privateKey;
-
 }

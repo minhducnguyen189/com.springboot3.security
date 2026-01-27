@@ -28,7 +28,8 @@ public class CustomCookieRequestCache extends CookieRequestCache {
             this.logger.debug("Request not saved as configured RequestMatcher did not match");
         } else {
             String redirectPath = UrlUtils.buildRequestUrl(request);
-            String redirectUrl = this.applicationProperty.getDeploymentBaseUrl().concat(redirectPath);
+            String redirectUrl =
+                    this.applicationProperty.getDeploymentBaseUrl().concat(redirectPath);
             Cookie savedCookie = new Cookie("REDIRECT_URI", CookieProcessor.serialize(redirectUrl));
             savedCookie.setMaxAge(-1);
             savedCookie.setSecure(request.isSecure());
@@ -42,5 +43,4 @@ public class CustomCookieRequestCache extends CookieRequestCache {
         String contextPath = request.getContextPath();
         return !StringUtils.isEmpty(contextPath) ? contextPath : "/";
     }
-
 }

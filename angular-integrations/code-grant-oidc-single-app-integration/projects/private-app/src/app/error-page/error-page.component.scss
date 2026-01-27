@@ -1,0 +1,30 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f8f9fa;
+  margin: 0;
+}
+
+.error-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.error-code {
+  font-size: 96px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #dc3545;
+}
+
+.error-message {
+  font-size: 24px;
+  font-weight: 300;
+  color: #6c757d;
+}

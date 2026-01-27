@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecureController {
 
     @GoogleReCaptchaProtect
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/secure/data", produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "/v1/secure/data",
+            produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getPublicData() {
         return new ResponseEntity<>("This is secure message!", HttpStatus.OK);
     }
-
 }

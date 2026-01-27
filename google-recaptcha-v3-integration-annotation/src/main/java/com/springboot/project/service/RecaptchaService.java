@@ -14,8 +14,8 @@ public class RecaptchaService {
     private final RecaptchaProperties recaptchaProperties;
 
     @Autowired
-    public RecaptchaService(GoogleRecaptchaApi googleRecaptchaApi,
-                            RecaptchaProperties recaptchaProperties) {
+    public RecaptchaService(
+            GoogleRecaptchaApi googleRecaptchaApi, RecaptchaProperties recaptchaProperties) {
         this.googleRecaptchaApi = googleRecaptchaApi;
         this.recaptchaProperties = recaptchaProperties;
     }
@@ -24,8 +24,8 @@ public class RecaptchaService {
         RecaptchaValidationRequest recaptchaValidationRequest = new RecaptchaValidationRequest();
         recaptchaValidationRequest.setSecret(recaptchaProperties.getSecret());
         recaptchaValidationRequest.setResponse(recaptchaToken);
-        RecaptchaResponse recaptchaResponse = this.googleRecaptchaApi.verifyToken(recaptchaValidationRequest);
+        RecaptchaResponse recaptchaResponse =
+                this.googleRecaptchaApi.verifyToken(recaptchaValidationRequest);
         return recaptchaResponse.getSuccess();
     }
-
 }

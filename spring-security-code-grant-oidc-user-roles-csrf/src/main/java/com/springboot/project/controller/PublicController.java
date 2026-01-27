@@ -12,5 +12,4 @@ public class PublicController {
     public ResponseEntity<String> getMessage() {
         return ResponseEntity.ok("Public Message!");
     }
-
 }

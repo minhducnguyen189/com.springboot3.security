@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PublicController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/public/data", produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "/v1/public/data",
+            produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getPublicData() {
         return new ResponseEntity<>("This is public message", HttpStatus.OK);
     }
-
 }

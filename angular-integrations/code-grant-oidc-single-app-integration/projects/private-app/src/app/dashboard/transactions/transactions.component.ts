@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionDashboardService } from '../../service/transaction.service';
 import { TransactionDetail } from '../../rest-client/model/transactionDetail';
-import { TransactionFilterResponse } from '../../rest-client';
+import { SortOrderEnum, TransactionFilterResponse } from '../../rest-client';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -12,14 +12,15 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class TransactionsComponent implements OnInit {
 
-  // Transactions data
   transactions: TransactionDetail[] = [];
-  pageSize: number = 50;
+  pageSize: number | 'ALL' = 50;
   pageIndex: number = 0;
   totalItems: number = 0;
   loading: boolean = false;
   loadingTime: number | null = null;
   useCursorFilter: boolean = false;
+  nextPageToken: number = 0;
+  previousPageToken: number = 0;
 
   constructor(
     private _transactionService: TransactionDashboardService
@@ -29,7 +30,12 @@ export class TransactionsComponent implements OnInit {
     this.loadTransactions();
   }
 
-  loadTransactions() {
+
+  get pageSizeValue(): number {
+    return this.pageSize === 'ALL' ? 150 : this.pageSize as number;
+  }
+
+  loadTransactions(cursorToken?: { next?: number, prev?: number }) {
     this.loading = true;
     this.loadingTime = null;
     const startTime = performance.now();
@@ -44,10 +50,12 @@ export class TransactionsComponent implements OnInit {
       taxAmount: undefined,
       netValue: undefined,
       pagination: {
-        pageNumber: this.pageIndex + 1,
-        pageSize: this.pageSize,
-        sortOrder: undefined,
-        sortBy: undefined,
+        pageNumber: cursorToken ? 0 : this.pageIndex,
+        pageSize: this.pageSizeValue,
+        sortOrder: SortOrderEnum.Asc,
+        sortBy: "sequenceNumber",
+        previousPageToken: cursorToken?.prev,
+        nextPageToken: cursorToken?.next
       }
     };
 
@@ -57,8 +65,14 @@ export class TransactionsComponent implements OnInit {
 
     apiCall.subscribe({
       next: (response: TransactionFilterResponse) => {
-        this.transactions = response.data || [];
+        if (this.pageSize === 'ALL' && this.pageIndex > 0) {
+           this.transactions = [...this.transactions, ...(response.data || [])];
+        } else {
+           this.transactions = response.data || [];
+        }
         this.totalItems = response.totalItems ?? 0;
+        this.nextPageToken = response.nextPageToken ?? 0;
+        this.previousPageToken = response.previousPageToken ?? 0;
         this.loading = false;
         this.loadingTime = performance.now() - startTime;
       },
@@ -72,15 +86,34 @@ export class TransactionsComponent implements OnInit {
 
   onFilterModeChange(event: any) {
     this.useCursorFilter = event.checked;
-    // Reset pagination when switching modes as they might behave differently
     this.pageIndex = 0; 
+    this.pageSize = 50;
     this.loadTransactions();
   }
 
-  onPageChange(event: PageEvent) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.loadTransactions();
+  onPageChange(event?: PageEvent) {
+    const previousPageIndex = this.pageIndex;
+    this.pageIndex = event?.pageIndex || 0;
+    
+    // 150 is the hardcoded virtual page size in TableComponent.
+    // If we receive 150, treat it as 'ALL' mode to ensure appending logic works.
+    if (event?.pageSize === 150) {
+      this.pageSize = 'ALL';
+    } else {
+      this.pageSize = event?.pageSize || 50;
+    }
+
+    if (this.useCursorFilter) {
+      if (this.pageIndex > previousPageIndex) {
+        this.loadTransactions({ next: this.nextPageToken });
+      } else if (this.pageIndex < previousPageIndex) {
+        this.loadTransactions({ prev: this.previousPageToken });
+      } else {
+        this.loadTransactions();
+      }
+    } else {
+      this.loadTransactions();
+    }
   }
 
 }

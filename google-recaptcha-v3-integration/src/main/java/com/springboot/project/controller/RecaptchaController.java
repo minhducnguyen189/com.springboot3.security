@@ -22,10 +22,14 @@ public class RecaptchaController {
         this.recaptchaService = recaptchaService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/v1/recaptcha/actions/verify", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecaptchaResponse> verifyRecaptchaToken(@RequestBody RecaptchaTokenRequest recaptchaTokenRequest) {
-        RecaptchaResponse recaptchaResponse = this.recaptchaService.verifyRecaptcha(recaptchaTokenRequest.getToken());
+    @RequestMapping(
+            method = RequestMethod.POST,
+            path = "/v1/recaptcha/actions/verify",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecaptchaResponse> verifyRecaptchaToken(
+            @RequestBody RecaptchaTokenRequest recaptchaTokenRequest) {
+        RecaptchaResponse recaptchaResponse =
+                this.recaptchaService.verifyRecaptcha(recaptchaTokenRequest.getToken());
         return new ResponseEntity<>(recaptchaResponse, HttpStatus.OK);
     }
-
 }

@@ -1,11 +1,10 @@
 package com.springboot.project.config;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,5 +27,4 @@ public class ApplicationProperty {
         private String logoutApiPath;
         private String postLogoutRedirectUri;
     }
-
 }

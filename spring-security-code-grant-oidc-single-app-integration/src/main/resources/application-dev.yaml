@@ -1,0 +1,76 @@
+server:
+  port: "7070"
+  forward-headers-strategy: 'framework'
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: "keycloak"
+            client-id: "code-grant-type"
+            client-secret: "3JULgVGRVdG6XuZU9k8n3F281A3MNIVV"
+            authorization-grant-type: "authorization_code"
+            scope: openid, profile, email
+            redirect-uri: "https://bank.2dgarden.com/api/oauth2/code/keycloak"
+        provider:
+          keycloak:
+            issuer-uri: "https://keycloak.2dgarden.com/realms/dev"
+            authorization-uri: "https://keycloak.2dgarden.com/realms/dev/protocol/openid-connect/auth"
+            token-uri: "https://keycloak.2dgarden.com/realms/dev/protocol/openid-connect/token"
+            user-info-uri: "https://keycloak.2dgarden.com/realms/dev/protocol/openid-connect/userinfo"
+            jwk-set-uri: "https://keycloak.2dgarden.com/realms/dev/protocol/openid-connect/certs"
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+        generate_statistics: true
+  flyway:
+    enabled: true
+    table: "flyway_schema_history"
+    baseline-on-migrate: true
+    baseline-version: 0
+
+application:
+  deployment-base-url: "https://bank.2dgarden.com"
+  security:
+    client-id: "code-grant-type"
+    allowed-apis:
+      - "/api/public-app/**"
+      - "/pages/**"
+      - "/error"
+    keycloak-id-token-ignored-claims:
+      - "iss"
+      - "iat"
+      - "exp"
+      - "auth_time"
+    token-secret: "e71f8b9b280baa29eec67ec7510025e41522c225e7d540b89d5ac9d7f686f8d5bee150b1615bb0a35081039d5f5a1c19fc904a56ffe8b3de5bf1bedda5b0aaef"
+    token-expiration-duration: "PT8H"
+    provider-logout-uri: "https://keycloak.2dgarden.com/realms/dev/protocol/openid-connect/logout"
+    logout-api-path: "/api/logout"
+    login-api-path: "/api/private-app/actions/authenticate"
+    refresh-token-api-path: "/api/private-app/actions/refresh-token"
+    post-logout-redirect-uri: "https://bank.2dgarden.com/api/public-app/messages"
+  back-end:
+    api-base-path: "/api"
+    server-base-path: "https://bank.2dgarden.com"
+  front-end:
+    private-angular-app:
+      resource-handler-path: "/pages/private-app/**"
+      resource-locations:
+        - "file:../angular-integrations/code-grant-oidc-single-app-integration/dist/private-app/"
+      view-controller: "/pages/private-app"
+      home-page: "dashboard"
+    public-angular-app:
+      resource-handler-path: "/pages/public-app/**"
+      resource-locations:
+        - "file:../angular-integrations/code-grant-oidc-single-app-integration/dist/public-app/"
+      view-controller: "/pages/public-app"
+      home-page: "dashboard"

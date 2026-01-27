@@ -1,0 +1,10 @@
+<div class="success-container">
+  <mat-icon color="primary">check_circle</mat-icon>
+  <h2>Session Refreshed</h2>
+  <p>Your session has been successfully updated.</p>
+  <p class="countdown-text">This window will close automatically in <strong>{{ countdown }}</strong> seconds.</p>
+  
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="closeImmediately()">Close Now</button>
+  </div>
+</div>

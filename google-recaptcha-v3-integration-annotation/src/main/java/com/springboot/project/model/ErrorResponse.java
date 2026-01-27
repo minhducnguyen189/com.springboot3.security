@@ -1,9 +1,8 @@
 package com.springboot.project.model;
 
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,5 +13,4 @@ public class ErrorResponse {
     private int errorCode;
     private String status;
     private String api;
-
 }

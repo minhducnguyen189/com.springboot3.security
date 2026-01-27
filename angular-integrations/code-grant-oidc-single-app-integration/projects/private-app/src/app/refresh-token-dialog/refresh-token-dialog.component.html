@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Session Expired</h2>
+<mat-dialog-content>
+  <p>Your session has expired or is about to expire. Would you like to refresh your session or logout?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="logout()">Logout</button>
+  <button mat-raised-button color="primary" (click)="refreshToken()">Refresh Token</button>
+</mat-dialog-actions>

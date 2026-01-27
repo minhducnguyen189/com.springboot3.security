@@ -14,5 +14,4 @@ public class ApplicationProperty {
     private int keySize;
     private String privateKey;
     private String publicKey;
-
 }

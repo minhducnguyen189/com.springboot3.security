@@ -4,17 +4,15 @@ import com.springboot.project.config.ApplicationProperty;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Slf4j
 @Component
@@ -36,8 +34,11 @@ public class TokenProvider {
         Map<String, Object> claims = new HashMap<>();
         claims.put(ID_TOKEN_HINT_CLAIM, userPrincipal.getIdToken().getTokenValue());
         claims.put(OIDC_USER_CLAIM, userPrincipal.getUserInfo());
-        for (Map.Entry<String, Object> idTokenClaim: idTokenClaims.entrySet()) {
-            if (this.applicationProperty.getSecurity().getKeycloakIdTokenSpecialClaims().contains(idTokenClaim.getKey())) {
+        for (Map.Entry<String, Object> idTokenClaim : idTokenClaims.entrySet()) {
+            if (this.applicationProperty
+                    .getSecurity()
+                    .getKeycloakIdTokenSpecialClaims()
+                    .contains(idTokenClaim.getKey())) {
                 if (idTokenClaim.getKey().equals("iss")) {
                     String issValue = String.valueOf(idTokenClaim.getValue());
                     claims.put(idTokenClaim.getKey(), issValue);
@@ -53,20 +54,19 @@ public class TokenProvider {
                 .subject(userPrincipal.getSubject())
                 .claims(claims)
                 .signWith(
-                        Keys.hmacShaKeyFor(this.applicationProperty.getSecurity().getTokenSecret().getBytes()),
+                        Keys.hmacShaKeyFor(
+                                this.applicationProperty.getSecurity().getTokenSecret().getBytes()),
                         Jwts.SIG.HS512)
                 .compact();
     }
 
     public Claims verifyAndGetClaims(String jwt) {
         return Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(this.applicationProperty.getSecurity().getTokenSecret().getBytes()))
+                .verifyWith(
+                        Keys.hmacShaKeyFor(
+                                this.applicationProperty.getSecurity().getTokenSecret().getBytes()))
                 .build()
                 .parseSignedClaims(jwt)
                 .getPayload();
     }
-
-
-
-
 }
