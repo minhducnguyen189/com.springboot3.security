@@ -21,7 +21,7 @@ export class LoginComponent {
     console.log(this.errorUrl);
     if(this.errorUrl) {
       window.location.href = window.location.origin +
-      "/api/private-app/actions/authenticate?redirectPath=/pages/private-app" +
+      "/api/private-app/actions/authenticate?redirectPath=" +
       this.errorUrl;
     } else {
       window.location.href = window.location.origin + "/api/private-app/actions/authenticate?redirectPath=/pages/private-app/dashboard";

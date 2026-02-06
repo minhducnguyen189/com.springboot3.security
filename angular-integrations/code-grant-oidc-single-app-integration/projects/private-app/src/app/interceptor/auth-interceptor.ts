@@ -35,13 +35,17 @@ export class AuthInterceptor implements HttpInterceptor {
 
     private _handleUnauthorizedError(req: HttpRequest<object>): void {
         const errorPath = encodeURIComponent(window.location.pathname);
-        if (!this.isRefreshingToken) {
-            this.isRefreshingToken = true;
-            const apiError: ApiError = {
-                errorMethod: req.method,
-                errorPath: errorPath
+        if (!this._startupService.loginUser) {
+            this._navigateToLogin(errorPath);
+        } else {
+            if (!this.isRefreshingToken) {
+                this.isRefreshingToken = true;
+                const apiError: ApiError = {
+                    errorMethod: req.method,
+                    errorPath: errorPath
+                }
+                this._openRefreshTokenDialog(apiError);
             }
-            this._openRefreshTokenDialog(apiError);
         }
     }
 
