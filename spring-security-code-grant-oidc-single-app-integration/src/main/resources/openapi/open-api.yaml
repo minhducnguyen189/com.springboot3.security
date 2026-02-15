@@ -211,6 +211,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
+  /private-app/bank-accounts/actions/filter:
+    post:
+      tags:
+        - bank-account
+      summary: filter bank accounts
+      description: filter bank accounts
+      operationId: filterBankAccounts
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: filter request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankAccountFilterRequest"
+      responses:
+        "200":
+          description: filter bank account response
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BankAccountFilterResponse'
+        "401":
+          description: Unauthorized
+        "400":
+          description: bad request operation
+        "403":
+          description: forbidden
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /private-app/bank-accounts/actions/filter-cursor:
+    post:
+      tags:
+        - bank-account
+      summary: filter bank accounts with cursor
+      description: filter bank accounts with cursor
+      operationId: filterBankAccountsWithCursor
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: filter request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankAccountFilterRequest"
+      responses:
+        "200":
+          description: filter bank account response
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BankAccountFilterResponse'
+        "401":
+          description: Unauthorized
+        "400":
+          description: bad request operation
+        "403":
+          description: forbidden
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     LoginUserResponse:
@@ -374,3 +454,98 @@ components:
         timestamp:
           type: string
           format: date-time
+    BankAccountFilterResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccountDetail'
+        foundItems:
+          type: integer
+          format: int64
+        totalItems:
+          type: integer
+          format: int64
+        previousPageToken:
+          type: integer
+          format: int64
+        nextPageToken:
+          type: integer
+          format: int64
+    BankAccountDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sequenceNumber:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        street:
+          type: string
+        streetNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        accountNumber:
+          type: string
+        accountType:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        ifscCode:
+          type: string
+        balance:
+          type: number
+          format: decimal
+        currency:
+          $ref: '#/components/schemas/CurrencyEnum'
+        status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+    BankAccountFilterRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        accountNumber:
+          type: string
+        accountType:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        ifscCode:
+          type: string
+        status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+    AccountTypeEnum:
+      type: string
+      enum:
+        - SAVINGS
+        - CURRENT
+    CurrencyEnum:
+      type: string
+      enum:
+        - USD
+    AccountStatusEnum:
+      type: string
+      enum:
+        - ACTIVE
+        - INACTIVE
+        - CLOSED

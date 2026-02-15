@@ -48,16 +48,26 @@ This project follows a **Contract-First** approach using OpenAPI.
 
 ### Security
 - **Spring Security**: Configured in `SecurityConfig.java`.
-- **Authentication**: OAuth2 / OIDC.
+- **Authentication**: OAuth2 / OIDC using cookie-based state storage (`HttpCookieOAuth2AuthorizationRequestRepository`).
+- **CSRF**: Protection enabled with `CsrfCookieFilter`.
 - **Input Validation**: Use standard Bean Validation annotations (`@NotNull`, `@Size`, etc.) in OpenAPI spec and entities.
 
 ### Pagination & Filtering
 - **Cursor Pagination**: Preferred for large datasets. Use `SpecificationHelper.cursorPagination`.
 - **Specification Pattern**: Use `SpecificationHelper` for dynamic query construction.
 
+### Error Handling
+- **Global Handler**: `GlobalExceptionHandler` handles exceptions globally.
+- **Response Format**: Errors return `ErrorResponseModel` with timestamp, status, message, and path.
+- **Custom Exceptions**: Use `ResourceNotFoundException` for missing resources.
+
+### Web Configuration
+- **Angular Integration**: `WebMvcConfig` configures resource handlers for private and public Angular applications.
+- **API Prefix**: REST controllers are prefixed with the base path defined in `ApplicationProperty`.
+
 ## 5. Testing
 
-- **Unit Tests**: Use JUnit 5 and Mockito.
+- **Unit Tests**: Use JUnit 5 and Mockito. **Never mock mapper classes.**
 - **Integration Tests**: Use `@SpringBootTest` with Testcontainers (if applicable) or H2 for database integration testing.
 - **Structure**: Mirror the `src/main/java` package structure in `src/test/java`.
 

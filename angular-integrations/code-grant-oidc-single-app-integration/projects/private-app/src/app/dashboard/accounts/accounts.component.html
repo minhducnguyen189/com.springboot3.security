@@ -1,4 +1,30 @@
-<div class="accounts-container">
-  <h2>Accounts</h2>
-  <p>Accounts feature coming soon!</p>
+<div class="dashboard-container">
+
+  <div class="tables-section">
+    <h2>Bank Accounts</h2>
+    <div class="transaction-controls">
+      <button mat-raised-button color="primary" (click)="loadBankAccounts()" [disabled]="loading">
+        {{ loading ? 'Loading...' : 'Refresh Bank Accounts' }}
+      </button>
+      <mat-slide-toggle
+          [checked]="useCursorFilter"
+          (change)="onFilterModeChange($event)"
+          color="primary"
+          style="margin-left: 15px;">
+        Use Cursor Filter
+      </mat-slide-toggle>
+      <span *ngIf="loadingTime !== null" style="margin-left: 10px;">
+        Loaded in {{ loadingTime / 1000 | number:'1.3-3' }} s
+      </span>
+    </div>
+    <lib-table 
+      [data]="bankAccounts" 
+      [displayedColumns]="['accountNumber', 'sequenceNumber', 'balance', 'currency', 'status', 'accountType']"
+      [pageSize]="pageSizeValue"
+      [pageSizeOptions]="[50, 100, 200, 1000]"
+      [pageIndex]="pageIndex"
+      [totalItems]="totalItems"
+      (pageChange)="onPageChange($event)"
+    ></lib-table>
+  </div>
 </div>

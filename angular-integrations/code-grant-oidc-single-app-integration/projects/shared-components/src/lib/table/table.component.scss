@@ -14,15 +14,25 @@ $header-text-color: rgba(0, 0, 0, 0.6);
 */
 $columns: (
   transactionNumber: (width: 240px, align: left),
-  sequenceNumber:    (width: 130px, align: center), /* Optional: centered this too since it's a number */
-  date:              (width: 140px, align: left),
-  domain:            (width: 160px, align: left),
-  location:          (width: 150px, align: left),
-  status:            (width: 120px, align: left),
-  paymentMethod:     (width: 160px, align: center),
-  value:             (width: 140px, align: left), /* CHANGED TO CENTER */
-  taxAmount:         (width: 140px, align: center), /* CHANGED TO CENTER */
-  netValue:          (width: 140px, align: center)  /* CHANGED TO CENTER */
+  sequenceNumber: (width: 130px, align: center),
+  /* Optional: centered this too since it's a number */
+  date: (width: 140px, align: left),
+  domain: (width: 160px, align: left),
+  location: (width: 150px, align: left),
+  status: (width: 120px, align: left),
+  paymentMethod: (width: 160px, align: center),
+  value: (width: 140px, align: left),
+  /* CHANGED TO CENTER */
+  taxAmount: (width: 140px, align: center),
+  /* CHANGED TO CENTER */
+  netValue: (width: 140px, align: center),
+  /* CHANGED TO CENTER */
+
+  /* Bank Account Columns */
+  accountNumber: (width: 200px, align: left),
+  balance: (width: 140px, align: left),
+  currency: (width: 80px, align: center),
+  accountType: (width: 120px, align: left)
 );
 
 @mixin table-typography {
@@ -89,7 +99,10 @@ table.mat-table {
   tr.mat-row {
     height: $row-height;
     transition: background-color 0.2s ease;
-    &:hover { background-color: $hover-color; }
+
+    &:hover {
+      background-color: $hover-color;
+    }
   }
 }
 
@@ -98,14 +111,22 @@ table.mat-table {
    ========================================================= */
 .virtual-header {
   z-index: 10;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .virtual-viewport {
   flex: 1;
   width: 100%;
-  &::-webkit-scrollbar { width: 8px; height: 8px; }
-  &::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
 }
 
 /* =========================================================
@@ -122,18 +143,19 @@ table.mat-table {
     max-width: $width;
     padding: 0 16px;
     box-sizing: border-box;
-    
+
     // 1. Align the text for Data Cells (td)
     text-align: $align;
 
     // 2. Align the content for Header Cells (th)
     // We target the internal flex container of mat-sort-header
-    @if $align == right {
+    @if $align ==right {
       ::ng-deep .mat-sort-header-container {
-        justify-content: flex-end; 
+        justify-content: flex-end;
       }
     }
-    @else if $align == center {
+
+    @else if $align ==center {
       ::ng-deep .mat-sort-header-container {
         justify-content: center; // This centers the Sort Arrow + Text
       }
@@ -162,22 +184,32 @@ table.mat-table {
   border-top: 1px solid $border-color;
   background: #fff;
   @include table-typography;
-  
-  &.virtual-mode { background: #fafafa; }
+
+  &.virtual-mode {
+    background: #fafafa;
+  }
 }
 
 .custom-page-size {
   display: flex;
   align-items: center;
   margin-right: 24px;
-  .label { margin-right: 8px; color: $header-text-color; }
+
+  .label {
+    margin-right: 8px;
+    color: $header-text-color;
+  }
+
   .select-wrapper {
     border: 1px solid $border-color;
     border-radius: 4px;
     padding: 4px 8px;
     background: #fff;
     min-width: 70px;
-    ::ng-deep .mat-select-value { color: $text-color; }
+
+    ::ng-deep .mat-select-value {
+      color: $text-color;
+    }
   }
 }
 

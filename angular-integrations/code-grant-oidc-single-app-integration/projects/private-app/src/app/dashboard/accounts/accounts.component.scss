@@ -1,3 +1,23 @@
-.accounts-container {
+.dashboard-container {
   padding: 20px;
+}
+
+.tables-section {
+  h2 {
+    margin-bottom: 20px;
+    color: #3f51b5;
+  }
+
+  .transaction-controls {
+    margin-bottom: 20px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  lib-table {
+    margin-bottom: 40px;
+    display: block;
+  }
 }
